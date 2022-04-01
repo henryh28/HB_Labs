@@ -1,2 +1,2 @@
 # HB_Labs
-Collection of labs from Hackbright program
+Collection of labs for Hackbright program
