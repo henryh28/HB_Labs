@@ -13,14 +13,9 @@ except FileNotFoundError:
     exit()
 
 for line in input_file:
-    line = line.split(" ")
+    line = line.rsplit()
     for word in line:
-        if "\n" in word:
-            word = word[:-2]
-        if word not in word_count:
-            word_count[word] = 1
-        else:
-            word_count[word] += 1
+        word_count[word] = word_count.get(word, 0) + 1
 
 for key, value in word_count.items():
     print (key, value)
