@@ -1,5 +1,8 @@
 """Classes for melon orders."""
 
+from random import uniform
+from datetime import datetime
+
 
 class AbstractMelonOrder:
     """ An abstract base class that other Melon Orders inherit from """
@@ -16,8 +19,8 @@ class AbstractMelonOrder:
 
     def get_total(self):
         """ Calculate price, including tax """
-
-        base_price, gouge_rate, small_order_penalty = 5, 1.5, 3
+        base_price = self.get_base_price()
+        gouge_rate, small_order_penalty = 1.5, 3
     
         if self.species == "Christmas":
             base_price *= gouge_rate
@@ -36,6 +39,13 @@ class AbstractMelonOrder:
 
         self.shipped = True
 
+
+    def get_base_price(self):
+        """ Implements 'splurge pricing' for base price  :( """ 
+
+        now = datetime.now()
+
+        return (uniform(5,9))
 
 class DomesticMelonOrder(AbstractMelonOrder):
     """ A melon order within the USA """
@@ -79,6 +89,4 @@ class GovernmentMelonOrder(AbstractMelonOrder):
 
 
 # ********** Driver Code ***************
-
-# Add driver code to test
 
