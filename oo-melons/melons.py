@@ -15,6 +15,8 @@ class AbstractMelonOrder:
         self.order_type = ""
         self.tax = 0.0
 
+        if self.qty > 100:
+            raise TooManyMelonsError
 
     def get_total(self):
         """ Calculate price, including tax """
@@ -97,7 +99,14 @@ class GovernmentMelonOrder(AbstractMelonOrder):
         """ Marks whether or not a melon has passed inspection """
         self.passed_inspection = passed
 
+class TooManyMelonsError(ValueError):
+    """ Customm error to guard against orders that are too large """
 
-# ********** Driver Code ***************
+    # reference: https://www.programiz.com/python-programming/user-defined-exception
+
+    def __str__(self):
+        return (f"No more than 100 melons!")
+
+
 
 
