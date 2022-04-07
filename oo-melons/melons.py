@@ -3,7 +3,6 @@
 from random import uniform
 from datetime import datetime
 
-
 class AbstractMelonOrder:
     """ An abstract base class that other Melon Orders inherit from """
 
@@ -43,9 +42,20 @@ class AbstractMelonOrder:
     def get_base_price(self):
         """ Implements 'splurge pricing' for base price  :( """ 
 
+        rush_hour_charge = 0
+        rush_hour_penalty = 4
         now = datetime.now()
 
-        return (uniform(5,9))
+        # check if current time is in rush hour window
+        rush_hour_days = [1,2,3,4,5]
+        rush_hour_hours = [8,9,10,11,12]
+
+        if datetime.today().isoweekday() in rush_hour_days:
+            if now.hour in rush_hour_hours:
+                rush_hour_charge = rush_hour_penalty
+
+
+        return (uniform(5,9)+ rush_hour_charge)
 
 class DomesticMelonOrder(AbstractMelonOrder):
     """ A melon order within the USA """
@@ -89,4 +99,5 @@ class GovernmentMelonOrder(AbstractMelonOrder):
 
 
 # ********** Driver Code ***************
+
 
