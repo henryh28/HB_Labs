@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML 5 Boilerplate</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+	<script src="index.js"></script>
+
+
+    <h1>Order a Melongram</h1>
+
+    <p>There's no better way to show a loved one you care than with a Melongram.</p>
+    
+    <p>Each Melongram comes with a custom message printed on high-quality cardstock
+    and your choice of a hand-picked, premium melon.</p>
+    
+    <h2>Melon Options</h2>
+    
+    <p>Choose from one of these melons:</p>
+    
+    <table>
+        <tr>
+            <td>Watermelon</td> <td>$1,200.00</td>
+        </tr>
+        <tr>
+            <td>Canteloupe</td> <td>$400.00</td>
+        </tr>
+        <tr>
+            <td>Honeydew</td> <td>$1,750.00</td>
+        </tr>
+    </table>
+
+    <h2>Order Form</h2>
+    
+    <form>
+        Your name
+        <input type="text" name="name"><br>
+        Who are we sending this to?
+        <input type="text" name="receipient"><br>
+
+        <label for="melons">Choose a melon</labeL>
+        <select name="melons" id="cars">
+            <option value="watermelon">Watermelon</option>
+            <option value="canteloupe">Canteloupe</option>
+            <option value="honeydew">Honeydew</option>
+        </select>
+        <br>
+
+        When should we deliver?
+        <input type="radio" name="time" value="am">Morning
+        <input type="radio" name="time" value="pm">Evening
+        <input type="radio" name="time" value="any">Any time
+
+        <p>Enter your message:</p>
+        <textarea name="message" rows="5" cols="25"></textarea><br>
+    
+        Subscribe to our newsletter
+        <input type="checkbox" id="subscribe" name="subscribe" value="yes">
+        <label for="subscribe">Yes</label><br>
+    
+        <input type="submit" value="Submit">
+    </form>
+
+
+
+  </body>
+</html>
+
