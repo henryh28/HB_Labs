@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <style>
+
+      h1 {
+        font-family: sans-serif;
+      }
+
+      .background {
+        background-color: #555555;
+        width: 600px;
+        height: 130px;
+        margin-top: 10px;
+      }
+
+      .foreground {
+        background-color: #cccccc;
+        display: inline-block;
+        height: 118px;
+        margin: 6px;
+        margin-right: 0;
+      }
+
+      #top .foreground {
+        width: 31.5%;
+      }
+
+      #middle .foreground {
+        height: 100px;
+        width: 23.25%;
+        vertical-align: top;
+      }
+
+      #middle .foreground:nth-child(even) {
+        height: 75px;
+      }
+
+      #bottom .foreground {
+        width: 48%;
+      }
+      
+      #bottom .foreground:nth-child(1) {
+        height: 35px;
+      }
+
+    </style>
+      <!-- Reference: https://css-tricks.com/almanac/selectors/n/nth-child/ -->
+  </head>
+
+  <body>
+    <h1>AAAAAHHHHHH</h1>
+    <div class = "background" id="top">
+      <div class="foreground"></div>
+      <div class="foreground"></div>
+      <div class="foreground"></div>
+    </div>
+
+    <div class="background" id="middle">
+      <div class="foreground"></div>
+      <div class="foreground"></div>
+      <div class="foreground"></div>
+      <div class="foreground"></div>
+    </div>
+
+    <div class="background" id="bottom">
+      <div class="foreground"></div>
+      <div class="foreground"></div>
+    </div>
+
+
+  </body>
+
+</html>

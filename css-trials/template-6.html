@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .container {
+        width: 350px;
+        height: 200px;
+      }
+
+      #red_container {
+        display: inline-block;
+        background-color: red;
+      }
+
+      #blue_container {
+        margin: 0;
+        display: inline-block;
+        background-color: blue;
+      }
+
+      .black_squares {
+        background-color: black;
+        width: 100px;
+        height: 100px;
+        display: inline-block;
+        margin-left: 50px;
+        margin-top: 50px;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div class="container" id="red_container">
+      <div class="black_squares"></div><!--
+      --><div class="black_squares"></div>
+    </div><!--
+    --><div class="container" id="blue_container">
+      <div class="black_squares"></div><!--
+      --><div class="black_squares"></div>
+    </div>
+  </body>
+
+  <!-- Reference: https://css-tricks.com/fighting-the-space-between-inline-block-elements/ -->
+
+</html>
