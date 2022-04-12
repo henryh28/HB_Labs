@@ -8,47 +8,39 @@ from flask import Flask, render_template, request
 # Flask wants to know this to know what any imported things are relative to.
 app = Flask(__name__)
 
-AWESOMENESS = [
-    "awesome",
-    "terrific",
-    "fantastic",
-    "neato",
-    "fantabulous",
-    "wowza",
-    "oh-so-not-meh",
-    "brilliant",
-    "ducky",
-    "coolio",
-    "incredible",
-    "wonderful",
-    "smashing",
-    "lovely",
-]
-
 
 @app.route("/")
 def start_here():
     """Display homepage."""
 
-    return "Hi! This is the home page."
-
-
-@app.route("/hello")
-def say_hello():
-    """Say hello to user."""
-
-    return render_template("hello.html")
-
+    return "<a href='/greet'> Play a game? </a>"
 
 @app.route("/greet")
 def greet_person():
     """Greet user with compliment."""
 
-    player = request.args.get("person")
+    return render_template("compliment.html")
 
-    compliment = choice(AWESOMENESS)
 
-    return render_template("compliment.html", person=player, compliment=compliment)
+@app.route("/game")
+def show_madlib_form():
+    """ Plays a game of madlib """
+
+    return render_template("game.html" if request.args.get('play_game') == "yes" else "goodbye.html")
+
+@app.route("/madlib")
+def show_mad_lib():
+    """ Displays the result of the madlib """
+
+    person = request.args.get("person")
+    color = request.args.get("color")
+    noun = request.args.get("noun")
+    adjective = request.args.get("adjective")
+
+    return render_template("madlib.html", person = person, color = color, noun = noun, adjective = adjective)
+
+
+
 
 
 if __name__ == "__main__":
