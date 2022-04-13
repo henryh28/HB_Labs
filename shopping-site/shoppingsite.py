@@ -6,9 +6,8 @@ put melons in a shopping cart.
 Authors: Joel Burton, Christian Fernandez, Meggie Mahnken, Katie Byers.
 """
 
-from flask import Flask, render_template, redirect, flash
+from flask import Flask, render_template, redirect, flash, session
 import jinja2
-
 import melons
 
 app = Flask(__name__)
@@ -33,14 +32,22 @@ def index():
 
     return render_template("homepage.html")
 
+# for testing, remove me
+@app.route("/clear")
+def clear_session():
+    """ cleans session cart """
+
+    session.clear()
+
+    return redirect("/")
 
 @app.route("/melons")
 def list_melons():
     """Return page showing all the melons ubermelon has to offer"""
 
     melon_list = melons.get_all()
-    return render_template("all_melons.html",
-                           melon_list=melon_list)
+    return render_template("all_melons.html", melon_list=melon_list)
+
 
 
 @app.route("/melon/<melon_id>")
@@ -49,11 +56,8 @@ def show_melon(melon_id):
 
     Show all info about a melon. Also, provide a button to buy that melon.
     """
-
-    melon = melons.get_by_id("meli")
-    print(melon)
-    return render_template("melon_details.html",
-                           display_melon=melon)
+    melon = melons.get_by_id(melon_id)
+    return render_template("melon_details.html", display_melon=melon)
 
 
 @app.route("/cart")
@@ -61,6 +65,15 @@ def show_shopping_cart():
     """Display content of shopping cart."""
 
     # TODO: Display the contents of the shopping cart.
+
+    melons_in_cart = []
+    total = 0
+
+    for key, value in session['cart'].items():
+        melon = melons.get_by_id(key)
+        total += (value * melon.price)
+        melons_in_cart.append([melon.common_name, value, melon.price, value * melon.price])
+
 
     # The logic here will be something like:
     #
@@ -78,7 +91,9 @@ def show_shopping_cart():
     # Make sure your function can also handle the case wherein no cart has
     # been added to the session
 
-    return render_template("cart.html")
+    print ("passing: ", melons_in_cart)
+
+    return render_template("cart.html", melons_in_cart=melons_in_cart, total=total)
 
 
 @app.route("/add_to_cart/<melon_id>")
@@ -88,6 +103,14 @@ def add_to_cart(melon_id):
     When a melon is added to the cart, redirect browser to the shopping cart
     page and display a confirmation message: 'Melon successfully added to
     cart'."""
+
+    quantity = 1
+
+    if 'cart' not in session:
+        session['cart'] = {}
+        session['cart'][melon_id] = quantity
+    else:
+        session['cart'][melon_id] = quantity if melon_id not in session['cart'] else session['cart'][melon_id] + quantity
 
     # TODO: Finish shopping cart functionality
 
@@ -100,7 +123,10 @@ def add_to_cart(melon_id):
     # - flash a success message
     # - redirect the user to the cart page
 
-    return "Oops! This needs to be implemented!"
+    flash(f"{melons.get_by_id(melon_id).common_name} successfully added to cart!")
+
+    session.modified = True
+    return redirect("/cart")
 
 
 @app.route("/login", methods=["GET"])
@@ -148,3 +174,7 @@ def checkout():
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
+
+
+# Reference: https://stackoverflow.com/questions/11260155/how-to-use-float-filter-to-show-just-two-digits-after-decimal-point
+# Reference: https://stackoverflow.com/questions/62565523/flask-session-clears-when-ever-redirecting
