@@ -57,9 +57,6 @@ def find_afterparties():
     data = results.json()
     events = data['_embedded']['events'] if '_embedded' in data else []
 
-    print (" urls used: ", results.url)
-
-
     return render_template('search-results.html',
                            pformat=pformat,
                            data=data,
