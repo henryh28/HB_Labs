@@ -80,8 +80,9 @@ def get_event_details(id):
     start_date = event['dates']['start']['localDate']
     venue = event['_embedded']['venues'][0]['name'] if 'venues' in event['_embedded'] else "No venue found"
     classification = event['classifications'][0]['segment']['name']
+    url = event['url']
 
-    return render_template('event-details.html', event_name=event_name, start_date=start_date, venue=venue, classification=classification)
+    return render_template('event-details.html', event_name=event_name, start_date=start_date, venue=venue, classification=classification, url=url)
 
 
 if __name__ == '__main__':
