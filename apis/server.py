@@ -51,11 +51,14 @@ def find_afterparties():
     sort = request.args.get('sort', '')
 
     url = 'https://app.ticketmaster.com/discovery/v2/events'
-    payload = {'radius': radius, 'postalcode': postalcode, 'keyword': keyword, 'unit': unit, 'apikey': API_KEY, 'sort': sort}
+    payload = {'radius': radius, 'postalCode': postalcode, 'keyword': keyword, 'unit': unit, 'apikey': API_KEY, 'sort': sort}
 
     results = requests.get(url, params=payload)
     data = results.json()
     events = data['_embedded']['events'] if '_embedded' in data else []
+
+    print (" urls used: ", results.url)
+
 
     return render_template('search-results.html',
                            pformat=pformat,
@@ -76,15 +79,12 @@ def get_event_details(id):
     payload = {'apikey': API_KEY, 'id': request.args.get('event_id')}
     event = requests.get(url, params=payload).json()
 
-
-
     event_name = event['name']
     start_date = event['dates']['start']['localDate']
     venue = event['_embedded']['venues'][0]['name'] if 'venues' in event['_embedded'] else "No venue found"
     classification = event['classifications'][0]['segment']['name']
     url = event['url']
     image_url = event['images'][0]['url']
-    print (">>>>>>>>>>>>> image: ", image_url)
 
     return render_template('event-details.html', event_name=event_name, start_date=start_date, venue=venue, 
             classification=classification, url=url, image_url=image_url)
