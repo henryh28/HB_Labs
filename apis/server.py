@@ -76,13 +76,18 @@ def get_event_details(id):
     payload = {'apikey': API_KEY, 'id': request.args.get('event_id')}
     event = requests.get(url, params=payload).json()
 
+
+
     event_name = event['name']
     start_date = event['dates']['start']['localDate']
     venue = event['_embedded']['venues'][0]['name'] if 'venues' in event['_embedded'] else "No venue found"
     classification = event['classifications'][0]['segment']['name']
     url = event['url']
+    image_url = event['images'][0]['url']
+    print (">>>>>>>>>>>>> image: ", image_url)
 
-    return render_template('event-details.html', event_name=event_name, start_date=start_date, venue=venue, classification=classification, url=url)
+    return render_template('event-details.html', event_name=event_name, start_date=start_date, venue=venue, 
+            classification=classification, url=url, image_url=image_url)
 
 
 if __name__ == '__main__':

@@ -39,9 +39,11 @@ th {
 .row > * {
   padding-left: 0;
   padding-right: 0;
+  margin: 15px;
 }
 
 .row > .above {
   margin-bottom: 0;
   margin-top: 10px;
 }
+
