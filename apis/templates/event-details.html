@@ -8,15 +8,7 @@
   <div class="row">
     <div class="col">
       {# TODO: Replace EVENT NAME with the event's name #}
-      <h2>EVENT NAME</h2>
-
-      {#
-        TODO: Replace THIS PAGE IS FOR FURTHER STUDY with
-        event's description
-      #}
-      <p>
-        THIS PAGE IS FOR FURTHER STUDY.
-      </p>
+      <h2>{{ event_name }}</h2>
     </div>
   </div>
 
@@ -42,7 +34,7 @@
     <div class="col">
       <h3>Start date</h3>
       {# TODO: Replace EVENT START DATE with event's start date #}
-      <p>EVENT START DATE</p>
+      <p>{{ start_date }}</p>
 
       <h3>Venues</h3>
       <ul>
@@ -52,7 +44,7 @@
 
           Each `li` should contain the name of a venue.
         #}
-        <li>PLACEHOLDER</li>
+        <li>{{ venue }}</li>
       </ul>
 
       <h3>Classifications</h3>
@@ -63,7 +55,7 @@
 
           Each `li` should contain the name of the classification's *genre*.
         #}
-        <li>PLACEHOLDER</li>
+        <li>{{ classification }}</li>
       </ul>
     </div>
   </div>

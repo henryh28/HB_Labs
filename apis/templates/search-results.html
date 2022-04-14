@@ -32,7 +32,7 @@
           <ul class="events-list">
             {% for event in results %}
               <li>
-                <a href="/event/{{ event['id'] }}" target="_blank">
+                <a href="/event/{{ event['id'] }}?event_id={{ event['id'] }}" target="_blank">
                   {{ event['name'] }}
                 </a>
               </li>
