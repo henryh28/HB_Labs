@@ -15,7 +15,7 @@ const WORDS = [
   'chocolate',
 ];
 
-const numWrong = 0;
+let numWrong = 0;
 
 // Loop over the chars in `word` and create divs.
 // The divs should be appended to the section with id="word-container".
@@ -42,7 +42,7 @@ const generateLetterButtons = () => {
 // `buttonEl` is an `HTMLElement` object.
 //
 const disableLetterButton = (buttonEl) => {
-  buttonEl.disabled="true";
+  buttonEl.disabled=true;
 };
 
 
@@ -51,12 +51,59 @@ const disableLetterButton = (buttonEl) => {
 // For now, you should test it out to make sure it works
 
 const isLetterInWord = (letter) => {
-
-  button = document.querySelector(`div.${letter}`)
-
-  return button!=null;
+  return document.querySelector(`div.${letter}`) != null;
 };
 
+
+const handleCorrectGuess = (letter) => {
+  let correct_guesses = 0;
+
+  const matches=document.querySelectorAll(`div.letter-box.${letter}`);  
+  for (match of matches) {
+    match.insertAdjacentHTML("beforeend", `${letter}`);
+    match.setAttribute("guessed", true);
+  }
+
+  const all_letter_boxes=document.querySelectorAll(`div.letter-box`);  
+  for (entry of all_letter_boxes) {
+    if (entry.getAttribute("guessed") != null) {
+      correct_guesses += 1;
+    } 
+
+    if (correct_guesses >= all_letter_boxes.length) {   
+      disableAllLetterButtons();
+      document.querySelector("#win").style.display="block";
+   }
+  }
+
+};
+
+
+
+//
+// Called when `letter` is not in word.
+//
+// Increment `numWrong` and update the shark image.
+// If the shark gets the person (5 wrong guesses), disable
+// all buttons and show the "play again" message.
+
+const handleWrongGuess = () => {
+  numWrong += 1;
+
+  if (numWrong >= 5) {
+    disableAllLetterButtons();
+    document.querySelector("#play-again").style.display="block";
+  }
+
+  document.querySelector("#shark-img img").setAttribute("src", `/static/images/guess${numWrong}.png`)
+};
+
+const disableAllLetterButtons = () => {
+  const all_buttons=document.querySelectorAll("button");
+  for (button of all_buttons) {
+    button.disabled=true;
+  }  
+}
 
 
 // This is like if __name__ == '__main__' in Python
@@ -67,12 +114,34 @@ const isLetterInWord = (letter) => {
   // You can change this to choose a random word from WORDS once you
   // finish this lab but we hard code it so we know what the word is
   // and can tell if things look correct for this word
-  const word = 'hello';
+  const word = WORDS[Math.floor(Math.random()*WORDS.length)];
+
 
   createDivsForChars(word);
   generateLetterButtons();
 
-  // in the next lab, you will be adding functionality to handle when
-  // someone clicks on a letter
+  for (const button of document.querySelectorAll('button')) {
+    // add an event handler to handle clicking on a letter button
+    button.addEventListener('click', () => {
+      button.setAttribute("disabled", true);
+      isLetterInWord(button.innerText) ? handleCorrectGuess(button.innerText) : handleWrongGuess();
+    })
+
+  const reset=document.querySelector('#play-again');
+  reset.addEventListener('click', () => {
+      window.location="/sharkwords";      
+    })
+
+  const win=document.querySelector('#win');
+  win.addEventListener('click', () => {
+      window.location="/sharkwords";      
+    })
+  
+
+  }
+
+  
+
+
 })();
 
