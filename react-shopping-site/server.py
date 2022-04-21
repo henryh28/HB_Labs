@@ -26,7 +26,7 @@ def nested_route(path, code):
 
 @app.route('/api/melons')
 def get_melons():
-    sleep(2) # simulate slow connections
+#    sleep(2) # simulate slow connections
     melons = Melon.query.all()
     return jsonify({melon.melon_code: melon.to_dict() for melon in melons})
 

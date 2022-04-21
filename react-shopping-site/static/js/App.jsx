@@ -1,7 +1,30 @@
 function App() {
   const [melons, setMelons] = React.useState({});
+  const [shoppingCart, setShoppingCart] = React.useState({});
 
-  return (
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('/api/melons')
+      const melonData = await response.json()
+      setMelons(melonData);
+    }
+
+    fetchData();
+  }, []);
+
+  function addMelonToCart(melonCode) {
+    setShoppingCart(currentShoppingCart => {
+      const newShoppingCart = Object.assign({}, currentShoppingCart);
+
+      newShoppingCart[melonCode] = melonCode in newShoppingCart ? newShoppingCart[melonCode] + 1 : 1;
+
+      return newShoppingCart
+    })
+  }
+
+
+    return (
     <ReactRouterDOM.BrowserRouter>
       <Navbar logo="/static/img/watermelon.png" brand="Ubermelon" />
       <div className="container-fluid">
@@ -9,10 +32,10 @@ function App() {
           <Homepage />
         </ReactRouterDOM.Route>
         <ReactRouterDOM.Route exact path="/shop">
-          <AllMelonsPage melons={melons} />
+          <AllMelonsPage melons={melons} addMelonToCart={addMelonToCart} />
         </ReactRouterDOM.Route>
         <ReactRouterDOM.Route exact path="/cart">
-          <ShoppingCartPage />
+          <ShoppingCartPage cart={shoppingCart} melons={melons}/>
         </ReactRouterDOM.Route>
       </div>
     </ReactRouterDOM.BrowserRouter>
