@@ -1,11 +1,62 @@
 """Models for movie ratings app."""
 
+from xml.sax.handler import DTDHandler
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
 
-# Replace this with your code!
+class User (db.Model):
+    """ Define a User """
+
+    __tablename__ = 'users'
+
+    user_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    email = db.Column(db.String, nullable = False, unique = True)
+    password = db.Column(db.String, nullable = False)
+
+    # ratings = a list of 'Rating' objects
+
+    def __repr__(self):
+        """ Returns user info """
+        return (f"<User user_id = {self.user_id} email = {self.email}")
+
+
+class Movie (db.Model):
+    """ Define a Movie """
+
+    __tablename__ = 'movies'
+
+    movie_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    title = db.Column(db.String, nullable = False)
+    overview = db.Column(db.Text)
+    release_date = db.Column(db.DateTime)
+    poster_path = db.Column(db.String)
+
+    # ratings = a list of 'Rating' objects
+
+    def __repr__(self):
+        """ Returns movie info """
+        return (f"<Movie movie_id = {self.movie_id} title = {self.title}>")
+
+
+class Rating (db.Model):
+    """ Define a Rating """
+
+    __tablename__ = 'ratings'
+
+    rating_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    score = db.Column(db.Integer)
+    movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+
+    movie = db.relationship("Movie", backref = "ratings")
+    user = db.relationship("User", backref = "ratings")
+
+    def __repr__(self):
+        """ Returns rating info """
+        return (f"<Rating rating_id = {self.rating_id} score = {self.score}>")
+
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///ratings", echo=True):
