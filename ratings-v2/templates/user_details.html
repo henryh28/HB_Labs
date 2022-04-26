@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}{{user.email }}{% endblock %}
+
+{% block body %}
+
+    <p>User:           {{ user.email }}</p>
+    <p>Password:        {{ user.password }}  (Obfuscate me!!!)</p>
+
+{% endblock %}
+
+
+
+

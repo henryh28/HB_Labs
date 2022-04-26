@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{movie.title }}{% endblock %}
+
+{% block body %}
+
+    <p>Title:           {{ movie.title}}</p>
+    <p>Overview:        {{ movie.overview}}</p>
+    <p>Release Date:    {{ movie.release_date}}</p>
+    <p>Poster:          <a href = "{{ movie.poster_path }}"></a></p>
+
+{% endblock %}
+
+
+
+
