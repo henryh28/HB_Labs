@@ -19,7 +19,7 @@ class User (db.Model):
 
     def __repr__(self):
         """ Returns user info """
-        return (f"<User user_id = {self.user_id} email = {self.email}")
+        return (f"<User user_id = {self.user_id} email = {self.email}>")
 
 
 class Movie (db.Model):
