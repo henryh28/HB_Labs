@@ -12,20 +12,54 @@ app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
 
+# ======================= System related routes ============================
 
+# Homepage
 @app.route("/")
 def homepage():
     """ View Homepage """
 
-    if 'user' not in session:
-        session['user'] = None
-    
-
+    if 'user_id' not in session:
+        session['user_id'] = None
+        session['user_name'] = None
 
     return render_template("homepage.html")
 
+# Login User
+@app.route("/login", methods = ["POST"])
+def login_user():
+    """ Authenticates user for login """
 
-# Movie related routes
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    user = crud.get_user_by_email(email)
+    if user:
+        if user.password == password:
+            flash(f"Logged in!")
+            session['user_id'] = user.user_id
+            session['user_name'] = user.email
+        else:
+            flash(f"Invalid password")
+    else:
+        flash(f"No matching user found")
+
+    return redirect("/")
+
+
+# Logout current User
+@app.route("/logout")
+def logout_user():
+    """ Logout current user """
+
+    flash(f"Logging out user: {session['user_name']}")
+    session['user_id'] = None
+    session['user_name'] = None
+
+    return redirect("/")
+
+# ======================= Movie related routes ============================
+
 @app.route("/movies")
 def get_all_movies():
     """ Displays all movies in database """
@@ -43,9 +77,7 @@ def view_movie_detail(movie_id):
 
     return render_template("movie_details.html", movie = movie)
 
-
-
-# User related routes
+# ======================= User related routes ============================
 @app.route("/users")
 def get_all_users():
     """ Displays all users in database """
@@ -82,38 +114,22 @@ def view_user_detail(user_id):
     return render_template("user_details.html", user = user)
 
 
-@app.route("/login", methods = ["POST"])
-def login_user():
-    """ Authenticates user for login """
 
-    email = request.form.get("email")
-    password = request.form.get("password")
-
-    user = crud.get_user_by_email(email)
-    if user:
-        if user.password == password:
-            flash(f"Logged in!")
-            session['user'] = user.user_id
-        else:
-            flash(f"Invalid password")
-    else:
-        flash(f"No matching user found")
-
-    return redirect("/")
-
+# ======================= Rating related routes ============================
 
 @app.route("/rate_movie/<movie_id>")
 def rate_movie(movie_id):
     """ Rates a movie """
 
     score = request.args.get("vote")
-    user = crud.get_single_user(session['user'])
+    user = crud.get_single_user(session['user_id'])
     movie = crud.get_single_movie(movie_id)
 
     new_rating = crud.create_rating(score, user, movie)
     db.session.add(new_rating)
     db.session.commit()
 
+    flash(f"Added rating with score of {score} for {movie.title}")
     return redirect(f"/movies/{movie_id}")
 
 

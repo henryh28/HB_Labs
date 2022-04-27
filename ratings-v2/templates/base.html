@@ -8,11 +8,27 @@
     </title>
 
     {% block head %}{% endblock %}
+    <link rel="stylesheet" href="/static/ratings.css">
   </head>
 
   <body>
     {% block nav %}
-      Logged in as: {{ session['user'] }}
+      <div id = "nav_bar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href = "/movies">View all movies</a></li>
+            <li><a href = "/users">View all users</a></li>
+        </ul>
+      </div>
+
+      <div id = "logged_in">
+        Logged in as: {{ session['user_name'] }}
+
+        {% if session['user_id'] != None %}
+          <button id = "logout">Logout</button>
+
+        {% endif %}
+      </div>
     {% endblock %}
 
     {% for msg in get_flashed_messages() %}
@@ -22,5 +38,6 @@
     {% block body %}{% endblock %}
 
     {% block after_body %}{% endblock %}
+    <script src = "/static/ratings.js"></script>
   </body>
 </html>
