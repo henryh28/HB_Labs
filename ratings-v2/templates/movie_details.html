@@ -9,7 +9,26 @@
     <p>Release Date:    {{ movie.release_date}}</p>
     <p>Poster:          <a href = "{{ movie.poster_path }}"></a></p>
 
+
+
+    {% if session['user'] != None %}
+        <div class="voting_div", methods = "POST">
+            <form action = "/rate_movie/{{ movie.movie_id }}">
+                <label for = "rate_movie">Rate Movie</label>
+                <select name = "vote" id = "select_vote">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <input type = "submit" id = "rating_button" value = "Rate Movie">
+            </form>
+        </div>
+    {% endif %}
+
 {% endblock %}
+
 
 
 

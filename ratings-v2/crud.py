@@ -7,6 +7,7 @@ from datetime import datetime as dt
 # ========= User related functions ==========
 def create_user(email, password):
     """Create and return a new user."""
+
     return User(email=email, password=password)
 
 
@@ -18,6 +19,9 @@ def get_single_user(user_id):
     """ Return info pertaining to specified user """
     return User.query.get(user_id)
 
+def get_user_by_email(email):
+    """ Search for existing user by provided email """
+    return User.query.filter(User.email == email).first()
 
 
 # ========= Movie related functions ==========
