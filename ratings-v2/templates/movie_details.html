@@ -10,7 +10,6 @@
     <p>Poster:          <a href = "{{ movie.poster_path }}"></a></p>
 
 
-
     {% if session['user'] != None %}
         <div class="voting_div", methods = "POST">
             <form action = "/rate_movie/{{ movie.movie_id }}">
@@ -24,6 +23,14 @@
                 </select>
                 <input type = "submit" id = "rating_button" value = "Rate Movie">
             </form>
+        </div>
+    {% endif %}
+    
+    <br>
+
+    {% if existing_rating %}
+        <div id = "existing_rating">
+            Previous Rating: {{ existing_rating.score }}
         </div>
     {% endif %}
 

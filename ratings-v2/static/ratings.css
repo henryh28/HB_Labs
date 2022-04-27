@@ -18,3 +18,22 @@
     font-size: 18px;
     text-align: center;
 }
+
+#logo_image {
+    display: flex;
+    justify-content: center;
+}
+
+#logo_image > img {
+    width: 750px;
+    height: auto;
+}
+
+#account_input {
+    display: inline-block;
+}
+
+#existing_rating {
+    font-weight: bold;
+    font-size: 18px;
+}

@@ -22,11 +22,19 @@
       </div>
 
       <div id = "logged_in">
-        Logged in as: {{ session['user_name'] }}
 
         {% if session['user_id'] != None %}
+          Logged in as: {{ session['user_name'] }}
           <button id = "logout">Logout</button>
-
+        {% else %}
+          <div id = "account_input">
+            <form method="POST">
+              <input type="submit" formaction = "/users" value="Create Account">
+              Email <input type="text" name="email">
+              Password <input type="password" name="password">
+              <input type="submit" formaction = "/login" value="Log In">
+            </div>
+          </form>
         {% endif %}
       </div>
     {% endblock %}

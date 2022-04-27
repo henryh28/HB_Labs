@@ -74,8 +74,9 @@ def view_movie_detail(movie_id):
     """ Display info for specified movie """
 
     movie = crud.get_single_movie(movie_id)
+    existing_rating = crud.get_existing_users_rating(movie_id, session['user_id'])
 
-    return render_template("movie_details.html", movie = movie)
+    return render_template("movie_details.html", movie = movie, existing_rating = existing_rating)
 
 # ======================= User related routes ============================
 @app.route("/users")
@@ -94,13 +95,19 @@ def register_user():
     email = request.form.get("email")
     password = request.form.get("password")
 
-    if crud.get_user_by_email(email):
-        flash(f"Cannot create account using {email} as that email address has already been used by existing account")
+    print ("email: ", email, " &&& pw: ", password)
+    print ("email none: ", bool(email))
+
+    if email and password:
+        if crud.get_user_by_email(email):
+            flash(f"Cannot create account using {email} as that email address has already been used by existing account")
+        else:
+            new_user = crud.create_user(email, password)
+            db.session.add(new_user)
+            db.session.commit()
+            flash(f"Successfuly created account!")
     else:
-        new_user = crud.create_user(email, password)
-        db.session.add(new_user)
-        db.session.commit()
-        flash(f"Successfuly created account!")
+        flash(f"Please enter a value for both Email and Password fields")
 
     return redirect("/")
 
@@ -113,8 +120,6 @@ def view_user_detail(user_id):
 
     return render_template("user_details.html", user = user)
 
-
-
 # ======================= Rating related routes ============================
 
 @app.route("/rate_movie/<movie_id>")
@@ -124,9 +129,14 @@ def rate_movie(movie_id):
     score = request.args.get("vote")
     user = crud.get_single_user(session['user_id'])
     movie = crud.get_single_movie(movie_id)
+    existing_rating = crud.get_existing_users_rating(movie_id, session['user_id'])
 
-    new_rating = crud.create_rating(score, user, movie)
-    db.session.add(new_rating)
+    if existing_rating:
+        existing_rating.score = score
+    else:
+        new_rating = crud.create_rating(score, user, movie)
+        db.session.add(new_rating)
+
     db.session.commit()
 
     flash(f"Added rating with score of {score} for {movie.title}")

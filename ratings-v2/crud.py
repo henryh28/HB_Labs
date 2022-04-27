@@ -1,5 +1,8 @@
 """ Define CRUD operations for project database """
 
+from lib2to3.pgen2.literals import test
+from shutil import move
+from socketserver import ThreadingUnixDatagramServer
 from model import db, User, Movie, Rating, connect_to_db
 from datetime import datetime as dt
 
@@ -43,6 +46,12 @@ def create_rating(score, user, movie):
     """ Create and return a new rating """
     return Rating(score = score, user = user, movie = movie)
 
+def get_existing_users_rating(movie_id, user_id):
+    """ Check to see if a rating exists for a movie from a specific user """
+    return Rating.query.filter(Rating.movie_id == movie_id, Rating.user_id == user_id).first()
+
+
+#existing = User.query.join(User.spaces).filter(User.username=='Bob', Space.name=='Mainspace').first()
 
 
 if __name__ == '__main__':
