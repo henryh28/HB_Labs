@@ -4,13 +4,15 @@
 
 {% block body %}
 
-    <p>Title:           {{ movie.title}}</p>
-    <p>Overview:        {{ movie.overview}}</p>
-    <p>Release Date:    {{ movie.release_date}}</p>
-    <p>Poster:          <a href = "{{ movie.poster_path }}"></a></p>
+    <p>Poster:          <img src = "{{ movie.poster_path }}" id = "poster"></p>
+    <div id = "movie_info">
+        <p>Title:           {{ movie.title}}</p>
+        <p>Overview:        {{ movie.overview}}</p>
+        <p>Release Date:    {{ movie.release_date}}</p>
+    </div>
 
 
-    {% if session['user'] != None %}
+    {% if session['user_id'] != None %}
         <div class="voting_div", methods = "POST">
             <form action = "/rate_movie/{{ movie.movie_id }}">
                 <label for = "rate_movie">Rate Movie</label>

@@ -37,3 +37,18 @@
     font-weight: bold;
     font-size: 18px;
 }
+
+#poster {
+    display: flex;
+    width: 350px;
+    height: auto;
+    float: right;
+}
+
+#movie_info {
+    border: 2px solid;
+    width: 500px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 25px;
+}
