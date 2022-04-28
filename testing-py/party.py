@@ -7,15 +7,55 @@ app.secret_key = "SECRETSECRETSECRET"
 
 
 def is_mel(name, email):
-    """Is this user Mel?"""
+    """ Is this user Mel?
+    
+        >>> is_mel('Mel Melitpolski', 'mel@ubermelon.com')
+        True
+        >>> is_mel('judit butler', 'judith@awesome.com')
+        False
+        >>> is_mel('mel melitpolski', 'mel@ubermeLON.COM')
+        True
+        >>> is_mel('mel melitpolski', 'mel@trick.com')
+        True
+        >>> is_mel('sneaky sneaky', 'MEL@ubermelon.com')
+        True
+        >>> is_mel('mel melson', 'mel2@ubermelon.com')
+        False
+    """
 
-    return name == "Mel Melitpolski" or email == "mel@ubermelon.com"
+    return name.lower() == "mel melitpolski" or email.lower() == "mel@ubermelon.com"
 
 
 def most_and_least_common_type(treats):
     """Given list of treats, return most and least common treat types.
 
     Return most and least common treat types in tuple of format (most, least).
+
+    >>> treats = [
+    ... {'type': 'dessert'},
+    ... {'type': 'dessert'},
+    ... {'type': 'dessert'},
+    ... {'type': 'dessert'},
+    ... {'type': 'dessert'},
+    ... {'type': 'drink'},
+    ... {'type': 'drink'},
+    ... {'type': 'drink'},
+    ... {'type': 'appetizer'},
+    ... {'type': 'appetizer'},
+    ... {'type': 'appetizer'},
+    ... ]
+    >>> most_and_least_common_type(treats)
+    ('dessert', 'drink')
+
+
+    >>> one_treat = [{'type': 'candy'}]
+    >>> most_and_least_common_type(one_treat)
+    ('candy', 'candy')
+
+    >>> notreat = []
+    >>> most_and_least_common_type(notreat)
+    (None, None)
+
     """
 
     types = {}
